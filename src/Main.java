@@ -1,25 +1,16 @@
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.util.Timer;
 
-/**
- * Created by Bulat on 30.01.2016.
- */
 public class Main {
-    private final static int PORT = 6666;
+    public final static int PORT = 6666;
+    public static final int TIME =  60*60*1000; // write to db every 60 min
 
     public static void main(String args[]) {
-        // Заглушка со средней потребляемостью в 100
         Dummy dummy = new Dummy(100d);
-        Thread thread = new Thread(dummy);
-        thread.start();
-        // Сервер
-        try {
-            System.out.println(InetAddress.getLocalHost());
-        } catch (UnknownHostException e) {
-           e.printStackTrace();
-        }
-        Server server = new Server();
+        H2 h2 = new H2();
+        Timer timer = new Timer();
+        timer.schedule(dummy, 0, 1000);
+        timer.schedule(h2, 0, TIME);
+        Server server = new Server(h2);
         server.start(PORT);
     }
 

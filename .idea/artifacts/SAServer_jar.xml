@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SAServer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SAServer_jar</output-path>
+    <root id="archive" name="SAServer.jar">
+      <element id="module-output" name="SAServer" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/h2database/h2/1.4.191/h2-1.4.191.jar" path-in-jar="/" />
+      <element id="library" level="project" name="com.h2database:h2-mvstore:1.4.191" />
+    </root>
+  </artifact>
+</component>

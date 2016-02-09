@@ -4,9 +4,11 @@ import java.util.*;
 
 public class SocketThread extends Thread {
     protected Socket socket;
+    private H2 h2;
 
-    public SocketThread(Socket clientSocket) {
+    public SocketThread(Socket clientSocket, H2 h2) {
         this.socket = clientSocket;
+        this.h2 = h2;
     }
 
     public void run() {
@@ -14,12 +16,11 @@ public class SocketThread extends Thread {
             System.out.println("Got a client " + getName());
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
-            DataInputStream in = new DataInputStream(inputStream);
+            ObjectInputStream in = new ObjectInputStream(inputStream);
             while (true) {
-                in.readUTF();
-                DataOutputStream out = new DataOutputStream(outputStream);
-                out.writeDouble(Dummy.consumptionPercentage);
-                out.flush();
+                ObjectOutputStream mapOutputStream = new ObjectOutputStream(outputStream);
+                mapOutputStream.writeObject(h2.getValues());
+                mapOutputStream.flush();
             }
         } catch (SocketException x) {
             System.out.println("Client " + getName() + " closed");
@@ -30,4 +31,5 @@ public class SocketThread extends Thread {
             x.printStackTrace();
         }
     }
+
 }

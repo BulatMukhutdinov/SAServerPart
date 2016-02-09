@@ -4,12 +4,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Server {
+    private H2 h2;
+
+    public Server(H2 h2) {
+        this.h2 = h2;
+    }
 
     public void start(int port) {
         ServerSocket serverSocket = null;
         Socket socket = null;
         try {
-            serverSocket = new ServerSocket(port); // создаем сокет сервера и привязываем его к вышеуказанному порту (может быть любое число от 1025 до 65535)
+            serverSocket = new ServerSocket(port); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 1025 пїЅпїЅ 65535)
         } catch (IOException e) {
             e.printStackTrace();
 
@@ -17,12 +22,12 @@ public class Server {
         System.out.println("Waiting for a client...");
         while (true) {
             try {
-                socket = serverSocket.accept();// заставляем сервер ждать подключений и выводим сообщение когда кто-то связался с сервером
+                socket = serverSocket.accept();// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             } catch (IOException e) {
                 System.out.println("I/O error: " + e);
             }
             // new thread for a client
-            new SocketThread(socket).start();
+            new SocketThread(socket, h2).start();
         }
     }
 }

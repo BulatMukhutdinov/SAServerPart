@@ -1,13 +1,7 @@
 import java.util.Random;
+import java.util.TimerTask;
 
-/**
- * Created by Bulat on 30.01.2016.
- */
-/*
- * Зашлушка для имитации электрического счетчика,
- * который вырабатывает показатели потребления электричества
- */
-public class Dummy implements Runnable {
+public class Dummy extends TimerTask {
     public static Double consumptionPercentage;
 
     private Double consumptionRate;
@@ -17,16 +11,13 @@ public class Dummy implements Runnable {
         this.consumptionRate = consumptionRate;
     }
 
-    @Override
     public void run() {
         consumptionRate = 100d;
         double rangeMin = 80;
         double rangeMax = 150;
         Random random = new Random();
-        while (true) {
-            consumption = rangeMin + (rangeMax - rangeMin) * random.nextDouble();
-            consumptionPercentage = consumption / consumptionRate * 100;
-        }
+        consumption = rangeMin + (rangeMax - rangeMin) * random.nextDouble();
+        consumptionPercentage = consumption / consumptionRate * 100;
     }
 
     public Double getConsumptionRate() {
