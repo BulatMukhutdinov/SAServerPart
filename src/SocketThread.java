@@ -16,16 +16,16 @@ public class SocketThread extends Thread {
             System.out.println("Got a client " + getName());
             InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(outputStream);
+            out.flush();
             ObjectInputStream in = new ObjectInputStream(inputStream);
             String request;
             while (true) {
                 request = in.readUTF();
                 if (request.equalsIgnoreCase("graph")) {
-                    ObjectOutputStream mapOutputStream = new ObjectOutputStream(outputStream);
-                    mapOutputStream.writeObject(h2.getValues());
-                    mapOutputStream.flush();
+                    out.writeObject(h2.getValues());
+                    out.flush();
                 } else if (request.equalsIgnoreCase("consumption")) {
-                    DataOutputStream out = new DataOutputStream(outputStream);
                     out.writeDouble(Dummy.consumptionPercentage);
                     out.flush();
                 }
